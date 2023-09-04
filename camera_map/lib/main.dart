@@ -3,6 +3,7 @@ import 'package:camera_map/screens/camera_screen.dart';
 import 'package:camera_map/screens/gallery._screen.dart';
 import 'package:camera_map/screens/map_screen.dart';
 import 'package:camera_map/widgets/menu_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +20,7 @@ class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [GalleryScreen(), CameraScreen(), MapScreen()];
+  final picker = ImagePicker();
 
   void _onItemTapped(int index) {
     setState(() {
