@@ -4,14 +4,15 @@ import 'package:flutter/widgets.dart';
 class ImageDetailScreen extends StatelessWidget {
   final String imagePath;
 
-  ImageDetailScreen(this.imagePath);
+  const ImageDetailScreen(this.imagePath, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Image Detail'),
+        backgroundColor: Colors.green[700],
+        title:
+            const Text('Image Detail', style: TextStyle(color: Colors.white)),
       ),
       body: Center(
         child: Image.asset(
