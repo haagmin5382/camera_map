@@ -31,8 +31,8 @@ class _CameraScreenState extends State<CameraScreen> {
 
   // 이미지를 보여주는 위젯
   Widget showImage() {
-    return Container(
-        color: const Color(0xffd0cece),
+    return SizedBox(
+        // color: const Color(0xffd0cece),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.width,
         child: Center(

@@ -19,7 +19,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [GalleryScreen(), CameraScreen(), MapScreen()];
+  final List<Widget> _pages = [
+    GalleryScreen(),
+    const CameraScreen(),
+    const MapScreen()
+  ];
   final picker = ImagePicker();
 
   void _onItemTapped(int index) {

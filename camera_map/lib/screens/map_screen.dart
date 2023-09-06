@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart' as geo;
+import 'package:permission_handler/permission_handler.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -10,12 +12,42 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
-
+  bool _locationPermissionGranted = false;
   final LatLng _center = const LatLng(37, 127);
 
+  // 지도 초기화
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
+
+  Future<geo.Position> getCurrentLocation() async {
+    geo.Position position = await geo.Geolocator.getCurrentPosition(
+        desiredAccuracy: geo.LocationAccuracy.high);
+    print(position);
+    return position;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _requestLocationPermission();
+  }
+
+  Future<void> _requestLocationPermission() async {
+    // final status = await Permission.location.status;
+    var status = await Permission.locationWhenInUse.request();
+
+    if (status.isGranted) {
+      setState(() {
+        _locationPermissionGranted = true;
+      });
+    } else if (status.isDenied || status.isPermanentlyDenied) {
+      // 사용자가 권한을 거부하거나 영구적으로 거부한 경우 설정으로 이동하도록 안내
+      await openAppSettings();
+    }
+  }
+
+  getLocation() {}
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +57,26 @@ class _MapScreenState extends State<MapScreen> {
           title: const Text('Camera Map'),
           backgroundColor: Colors.green[700],
         ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
-        ),
+        body: _locationPermissionGranted
+            ? GoogleMap(
+                key: UniqueKey(),
+                onMapCreated: _onMapCreated,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                markers: {
+                  const Marker(
+                    markerId: MarkerId('pyeongtaek'),
+                    position: LatLng(37, 127.02),
+                  )
+                },
+                initialCameraPosition: CameraPosition(
+                  target: _center,
+                  zoom: 11.0,
+                ),
+              )
+            : const Center(
+                child: Text('위치 권한을 허용해주세요.'),
+              ),
       ),
     );
   }
