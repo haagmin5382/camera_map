@@ -13,18 +13,18 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
   bool _locationPermissionGranted = false;
-  final LatLng _center = const LatLng(37, 127);
+  LatLng _center = const LatLng(37, 127);
 
   // 지도 초기화
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
-  Future<geo.Position> getCurrentLocation() async {
+  Future<LatLng> getCurrentLocation() async {
     geo.Position position = await geo.Geolocator.getCurrentPosition(
         desiredAccuracy: geo.LocationAccuracy.high);
-    print(position);
-    return position;
+    LatLng location = LatLng(position.latitude, position.longitude);
+    return location;
   }
 
   @override
@@ -41,13 +41,12 @@ class _MapScreenState extends State<MapScreen> {
       setState(() {
         _locationPermissionGranted = true;
       });
+      _center = await getCurrentLocation();
     } else if (status.isDenied || status.isPermanentlyDenied) {
       // 사용자가 권한을 거부하거나 영구적으로 거부한 경우 설정으로 이동하도록 안내
       await openAppSettings();
     }
   }
-
-  getLocation() {}
 
   @override
   Widget build(BuildContext context) {
