@@ -4,8 +4,15 @@ import 'package:camera_map/screens/gallery._screen.dart';
 import 'package:camera_map/screens/map_screen.dart';
 import 'package:camera_map/widgets/menu_widget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ); // Firebase 설정
   runApp(const MyApp());
 }
 
