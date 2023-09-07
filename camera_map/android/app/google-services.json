@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "238790051933",
+    "project_id": "cameramap-c9846",
+    "storage_bucket": "cameramap-c9846.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238790051933:android:515aff5d82aa4c9ae9e5b4",
+        "android_client_info": {
+          "package_name": "com.example.camera_map"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238790051933-qrfegdv1ospefu1fprpodvn16nr7cngl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCAM1FjjYT5H94yUx3TsBW0_X6isoD4hI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238790051933-mfimcci01tljhtk8bf9c57c4mhi5o46v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "238790051933-15upcl795644s9lp6v4s6c6as1seb9u5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cameraMap.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
