@@ -24,6 +24,10 @@ class _MapScreenState extends State<MapScreen> {
     geo.Position position = await geo.Geolocator.getCurrentPosition(
         desiredAccuracy: geo.LocationAccuracy.high);
     LatLng location = LatLng(position.latitude, position.longitude);
+    setState(() {
+      _center = location;
+      _locationPermissionGranted = true;
+    });
     return location;
   }
 
@@ -38,10 +42,7 @@ class _MapScreenState extends State<MapScreen> {
     var status = await Permission.locationWhenInUse.request();
 
     if (status.isGranted) {
-      _center = await getCurrentLocation();
-      setState(() {
-        _locationPermissionGranted = true;
-      });
+      await getCurrentLocation();
     } else if (status.isDenied || status.isPermanentlyDenied) {
       // 사용자가 권한을 거부하거나 영구적으로 거부한 경우 설정으로 이동하도록 안내
       await openAppSettings();
@@ -76,6 +77,10 @@ class _MapScreenState extends State<MapScreen> {
             : const Center(
                 child: Text('위치 권한을 허용해주세요.'),
               ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _requestLocationPermission(),
+          child: const Icon(Icons.gps_fixed),
+        ),
       ),
     );
   }
