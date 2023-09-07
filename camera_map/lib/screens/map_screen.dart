@@ -38,10 +38,10 @@ class _MapScreenState extends State<MapScreen> {
     var status = await Permission.locationWhenInUse.request();
 
     if (status.isGranted) {
+      _center = await getCurrentLocation();
       setState(() {
         _locationPermissionGranted = true;
       });
-      _center = await getCurrentLocation();
     } else if (status.isDenied || status.isPermanentlyDenied) {
       // 사용자가 권한을 거부하거나 영구적으로 거부한 경우 설정으로 이동하도록 안내
       await openAppSettings();
@@ -60,8 +60,8 @@ class _MapScreenState extends State<MapScreen> {
             ? GoogleMap(
                 key: UniqueKey(),
                 onMapCreated: _onMapCreated,
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
+                myLocationEnabled: true, //  내 위치 표시
+                myLocationButtonEnabled: false, // 현재 위치 보여주는 버튼 표시
                 markers: {
                   const Marker(
                     markerId: MarkerId('pyeongtaek'),

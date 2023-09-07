@@ -25,7 +25,7 @@ import GoogleMaps  // Add this import
 
    let apiKey = ProcessInfo.processInfo.environment["GOOGLE_MAP_API_KEY"] ?? ""
     // TODO: Add your Google Maps API key
-    GMSServices.provideAPIKey("apiKey")
+    GMSServices.provideAPIKey("AIzaSyCennfkYkFOpojaLBMUdwEp09w1n7mvZdQ")
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
