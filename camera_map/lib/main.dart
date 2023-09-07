@@ -1,3 +1,4 @@
+import 'package:camera_map/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:camera_map/screens/camera_screen.dart';
 import 'package:camera_map/screens/gallery._screen.dart';
@@ -32,7 +33,7 @@ class _MyAppState extends State<MyApp> {
     const MapScreen()
   ];
   final picker = ImagePicker();
-
+  var isLogin = false;
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -47,16 +48,18 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Scaffold(
-        body: Center(
-          child: _pages[_selectedIndex],
-        ),
-        bottomNavigationBar: menubar(
-          // MenuBar 위젯을 사용
-          selectedIndex: _selectedIndex,
-          onItemTapped: _onItemTapped,
-        ),
-      ),
+      home: isLogin
+          ? Scaffold(
+              body: Center(
+                child: _pages[_selectedIndex],
+              ),
+              bottomNavigationBar: menubar(
+                // MenuBar 위젯을 사용
+                selectedIndex: _selectedIndex,
+                onItemTapped: _onItemTapped,
+              ),
+            )
+          : LoginScreen(),
     );
   }
 }
