@@ -42,9 +42,49 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Google 로그인'),
+            InkWell(
+              onTap: () async {
+                final User? user = await _handleSignIn();
+                if (user != null) {
+                  // 로그인 성공 후 처리
+                  print("로그인 성공: ${user.displayName}");
+                } else {
+                  // 로그인 실패 처리
+                  print("로그인 실패");
+                }
+              },
+              child: Container(
+                width: 220,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 250, 248, 248),
+                  borderRadius: BorderRadius.circular(5.0), // 큰 테두리를 추가
+                  border: Border.all(
+                    color: Colors.black.withOpacity(0.2), // 테두리 색상
+                    width: 1.2, // 테두리 두께
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/google_logo.png', // 로고 이미지 경로
+                      width: 50,
+                      height: 40,
+                    ),
+                    const SizedBox(width: 10),
+                    // const Icon(Icons.googleSignIn),
+                    const Text(
+                      'Google 로그인',
+                      style: TextStyle(
+                        color: Color.fromARGB(221, 115, 107, 107),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
