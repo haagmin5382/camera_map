@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginScreen extends StatelessWidget {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+class LoginScreen extends StatefulWidget {
+  bool isLogin;
+  final Function(bool) onLoginStateChanged;
 
-  LoginScreen({super.key});
+  LoginScreen(
+      {super.key, required this.isLogin, required this.onLoginStateChanged});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   Future<User?> _handleSignIn() async {
     try {
@@ -47,6 +57,7 @@ class LoginScreen extends StatelessWidget {
                 final User? user = await _handleSignIn();
                 if (user != null) {
                   // 로그인 성공 후 처리
+                  widget.onLoginStateChanged(true);
                   print("로그인 성공: ${user.displayName}");
                 } else {
                   // 로그인 실패 처리

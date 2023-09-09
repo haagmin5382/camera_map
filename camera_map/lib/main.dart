@@ -40,6 +40,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void onLoginStateChanged(bool loginState) {
+    setState(() {
+      isLogin = loginState;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -59,7 +65,8 @@ class _MyAppState extends State<MyApp> {
                 onItemTapped: _onItemTapped,
               ),
             )
-          : LoginScreen(),
+          : LoginScreen(
+              isLogin: isLogin, onLoginStateChanged: onLoginStateChanged),
     );
   }
 }
