@@ -1,7 +1,7 @@
 import 'package:camera_map/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:camera_map/screens/camera_screen.dart';
-import 'package:camera_map/screens/friends._screen.dart';
+import 'package:camera_map/screens/friends_list_screen.dart';
 import 'package:camera_map/screens/map_screen.dart';
 import 'package:camera_map/widgets/menu_widget.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    GalleryScreen(),
+    FriendListScreen(),
     const CameraScreen(),
     const MapScreen()
   ];
