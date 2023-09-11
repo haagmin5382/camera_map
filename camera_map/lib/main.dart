@@ -1,7 +1,7 @@
 import 'package:camera_map/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:camera_map/screens/camera_screen.dart';
-import 'package:camera_map/screens/gallery._screen.dart';
+import 'package:camera_map/screens/friends._screen.dart';
 import 'package:camera_map/screens/map_screen.dart';
 import 'package:camera_map/widgets/menu_widget.dart';
 import 'package:image_picker/image_picker.dart';

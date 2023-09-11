@@ -47,7 +47,7 @@ class _CameraScreenState extends State<CameraScreen> {
         backgroundColor: const Color(0xfff4f3f9),
         appBar: AppBar(
           backgroundColor: Colors.green[700],
-          title: const Text('Photo', style: TextStyle(color: Colors.white)),
+          title: const Text('Messages', style: TextStyle(color: Colors.white)),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,

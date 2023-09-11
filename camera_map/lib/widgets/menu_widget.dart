@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class menubar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
-  menubar({
+  const menubar({
+    super.key,
     required this.selectedIndex,
     required this.onItemTapped,
   });
@@ -15,12 +15,12 @@ class menubar extends StatelessWidget {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.photo_library),
-          label: '갤러리',
+          icon: Icon(Icons.people),
+          label: '친구 목록',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.camera_alt),
-          label: '사진 촬영',
+          icon: Icon(Icons.message),
+          label: '메시지',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.map),

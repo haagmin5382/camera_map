@@ -16,7 +16,7 @@ class GalleryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[700],
-        title: const Text('Gallery', style: TextStyle(color: Colors.white)),
+        title: const Text('Friends', style: TextStyle(color: Colors.white)),
       ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
