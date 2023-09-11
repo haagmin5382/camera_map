@@ -54,7 +54,7 @@ class _MapScreenState extends State<MapScreen> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Camera Map'),
+          title: const Text('Friends Map'),
           backgroundColor: Colors.green[700],
         ),
         body: _locationPermissionGranted
