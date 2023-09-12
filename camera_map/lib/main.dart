@@ -1,6 +1,6 @@
 import 'package:camera_map/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:camera_map/screens/camera_screen.dart';
+import 'package:camera_map/screens/chat_list_screen.dart';
 import 'package:camera_map/screens/friends_list_screen.dart';
 import 'package:camera_map/screens/map_screen.dart';
 import 'package:camera_map/widgets/menu_widget.dart';
@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
 
   final List<Widget> _pages = [
     FriendListScreen(),
-    const CameraScreen(),
+    ChatListScreen(),
     const MapScreen()
   ];
   final picker = ImagePicker();
