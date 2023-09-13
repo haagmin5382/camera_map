@@ -1,3 +1,4 @@
+import 'package:camera_map/utils/auth/create_user.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -32,8 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       final UserCredential authResult =
           await _auth.signInWithCredential(credential);
-      final User? user = authResult.user;
-
+      final User user = authResult.user!;
+      createUser(user);
       return user;
     } catch (error) {
       print(error);
