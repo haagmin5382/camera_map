@@ -1,3 +1,4 @@
+import 'package:camera_map/screens/chat_room.dart';
 import 'package:flutter/material.dart';
 
 class ChatListScreen extends StatelessWidget {
@@ -57,7 +58,12 @@ class ChatListScreen extends StatelessWidget {
             onTap: () {
               // 채팅방을 터치했을 때 채팅방으로 이동하는 동작 추가
               // 예: 해당 채팅방 화면으로 이동
-              print('채팅방을 터치했습니다: ${chatRoom.name}');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatRoomScreen(chatRoom: chatRoom),
+                ),
+              );
             },
           );
         },
