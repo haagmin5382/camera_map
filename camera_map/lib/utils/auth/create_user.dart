@@ -3,21 +3,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-void createUser(User user) {
+void createUser(User user) async {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  users.doc(user.email).set({
-    'email': user.email,
-    'displayName': user.displayName,
-    'photoURL': user.photoURL,
-    'isLogin': true,
-    'friends': []
-  });
-  // users
-  //     .add({
-  //       'email': user.email,
-  //       'displayName': user.displayName,
-  //       'isLogin': true
-  //     })
-  //     .then((value) => print("User Added"))
-  //     .catchError((error) => print("Failed to add user: $error"));
+  final userInDB = users.doc(user.email);
+  // final userNotInDB = users.doc('nouser@email.com');
+  userInDB.get().then((value) => {
+        if (value.data() == null)
+          {
+            users.doc(user.email).set({
+              'email': user.email,
+              'displayName': user.displayName,
+              'photoURL': user.photoURL,
+              'isLogin': true,
+              'friends': []
+            })
+          }
+        else
+          {print('이미 가입된 유저')}
+      });
 }
