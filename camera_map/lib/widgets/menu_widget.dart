@@ -13,6 +13,7 @@ class menubar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.people),
@@ -26,6 +27,10 @@ class menubar extends StatelessWidget {
           icon: Icon(Icons.map),
           label: '지도',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: '내 정보',
+        )
       ],
       currentIndex: selectedIndex,
       onTap: onItemTapped,
