@@ -14,10 +14,6 @@ class FriendListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green[700],
-        title: const Text('친구 목록', style: TextStyle(color: Colors.white)),
-      ),
       body: ListView.builder(
         itemCount: friends.length,
         itemBuilder: (context, index) {

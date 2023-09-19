@@ -53,10 +53,6 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Friends Map'),
-          backgroundColor: Colors.green[700],
-        ),
         body: _locationPermissionGranted
             ? GoogleMap(
                 key: UniqueKey(),
