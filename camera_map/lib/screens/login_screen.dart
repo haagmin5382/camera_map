@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (user != null) {
                   // 로그인 성공 후 처리
                   widget.onLoginStateChanged(true);
-                  print("로그인 성공: ${user.displayName}");
+                  // print("로그인 성공: ${user.displayName}");
                 } else {
                   // 로그인 실패 처리
                   print("로그인 실패");

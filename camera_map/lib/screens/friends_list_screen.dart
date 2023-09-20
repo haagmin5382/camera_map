@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class FriendListScreen extends StatelessWidget {
   // 친구 데이터 리스트 (예시)
   final List<Friend> friends = [
-    Friend(name: '친구 1', isOnline: true, imageUrl: 'assets/friend1.png'),
-    Friend(name: '친구 2', isOnline: false, imageUrl: 'assets/friend2.png'),
-    Friend(name: '친구 3', isOnline: true, imageUrl: 'assets/friend3.png'),
+    Friend(name: '친구 1', isOnline: true, imageUrl: ''),
+    Friend(name: '친구 2', isOnline: false, imageUrl: ''),
+    Friend(name: '친구 3', isOnline: true, imageUrl: ''),
     // 추가 친구 데이터...
   ];
 

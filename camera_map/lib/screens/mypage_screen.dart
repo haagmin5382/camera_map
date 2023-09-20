@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class MypageScreen extends StatelessWidget {
   User? user = FirebaseAuth.instance.currentUser;
+  late Function(bool) onLoginStateChanged;
 
-  MypageScreen({super.key});
+  MypageScreen({super.key, required this.onLoginStateChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class MypageScreen extends StatelessWidget {
 
             const SizedBox(height: 10),
             _buildInputField(context, '이름', user?.displayName ?? ''),
-
+            _buildLogoutButton(context, onLoginStateChanged)
             // 필요한 다른 사용자 정보 항목을 추가할 수 있습니다.
           ],
         ),
@@ -44,6 +45,20 @@ Widget _buildInputField(BuildContext context, String label, String value) {
       ),
       controller: TextEditingController(text: value),
       readOnly: true, // 읽기 전용
+    ),
+  );
+}
+
+Widget _buildLogoutButton(BuildContext context, onLoginStateChanged) {
+  return Padding(
+    padding: const EdgeInsets.all(15.0),
+    child: ElevatedButton(
+      onPressed: () {
+        // 로그아웃 로직 추가
+        FirebaseAuth.instance.signOut();
+        onLoginStateChanged(false);
+      },
+      child: const Text('로그아웃'),
     ),
   );
 }

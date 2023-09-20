@@ -31,12 +31,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    FriendListScreen(),
-    ChatListScreen(),
-    const MapScreen(),
-    MypageScreen()
-  ];
   final picker = ImagePicker();
   var isLogin = false;
   void _onItemTapped(int index) {
@@ -54,6 +48,13 @@ class _MyAppState extends State<MyApp> {
   User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      FriendListScreen(),
+      ChatListScreen(),
+      const MapScreen(),
+      MypageScreen(onLoginStateChanged: onLoginStateChanged)
+    ];
+
     return MaterialApp(
       title: 'Camera Map',
       theme: ThemeData(
@@ -69,7 +70,7 @@ class _MyAppState extends State<MyApp> {
                 ],
               ),
               body: Center(
-                child: _pages[_selectedIndex],
+                child: pages[_selectedIndex],
               ),
               bottomNavigationBar: menubar(
                 // MenuBar 위젯을 사용
