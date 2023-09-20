@@ -1,3 +1,5 @@
+import 'package:camera_map/utils/friends/add_friends.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FriendAddModal extends StatelessWidget {
@@ -9,6 +11,8 @@ class FriendAddModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+
     return AlertDialog(
       title: const Text('친구 추가'),
       content: Column(
@@ -27,6 +31,7 @@ class FriendAddModal extends StatelessWidget {
               // 이메일을 사용하여 친구 추가 로직을 수행
               // emailController.text 변수에 입력된 이메일 사용
               print(emailController.text);
+              addFriends(user, emailController.text);
               // ...
               Navigator.of(context).pop(); // 모달 닫기
             },
