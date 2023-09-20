@@ -1,3 +1,4 @@
+import 'package:camera_map/widgets/add_friends_widget.dart';
 import 'package:flutter/material.dart';
 
 class FriendListScreen extends StatelessWidget {
@@ -14,40 +15,56 @@ class FriendListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: friends.length,
-        itemBuilder: (context, index) {
-          final friend = friends[index];
-          final statusIcon = friend.isOnline
-              ? const Icon(
-                  Icons.circle,
-                  color: Colors.green,
-                  size: 10,
-                )
-              : const Icon(
-                  Icons.circle,
-                  color: Colors.grey,
-                  size: 10,
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: friends.length,
+              itemBuilder: (context, index) {
+                final friend = friends[index];
+                final statusIcon = friend.isOnline
+                    ? const Icon(
+                        Icons.circle,
+                        color: Colors.green,
+                        size: 10,
+                      )
+                    : const Icon(
+                        Icons.circle,
+                        color: Colors.grey,
+                        size: 10,
+                      );
+                return ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage(friend.imageUrl),
+                  ),
+                  title: Row(
+                    children: [
+                      Text(friend.name),
+                      const Spacer(), // 오른쪽에 공간 추가
+                      statusIcon
+                    ],
+                  ),
+                  onTap: () {
+                    // 친구를 탭했을 때 수행할 동작 추가
+                  },
                 );
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundImage: AssetImage(friend.imageUrl),
+              },
             ),
-            title: Row(
-              children: [
-                Text(friend.name),
-                const Spacer(), // 오른쪽에 공간 추가
-                statusIcon
-              ],
-            ),
-
-            // 친구를 탭했을 때 추가 동작을 설정할 수 있습니다.
-            onTap: () {
-              // 친구를 탭했을 때 수행할 동작 추가
-              // 예: 채팅 화면으로 이동
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return FriendAddModal(); // FriendAddModal 위젯 표시
+                },
+              );
+              // Respond to button press
             },
-          );
-        },
+            icon: const Icon(Icons.add, size: 18),
+            label: const Text("친구 추가하기"),
+          )
+        ],
       ),
     );
   }
