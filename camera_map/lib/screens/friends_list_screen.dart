@@ -1,56 +1,81 @@
 import 'package:camera_map/widgets/add_friends_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FriendListScreen extends StatelessWidget {
   // 친구 데이터 리스트 (예시)
-  final List<Friend> friends = [
-    Friend(name: '친구 1', isOnline: true, imageUrl: ''),
-    Friend(name: '친구 2', isOnline: false, imageUrl: ''),
-    Friend(name: '친구 3', isOnline: true, imageUrl: ''),
-    // 추가 친구 데이터...
-  ];
+
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  User? user = FirebaseAuth.instance.currentUser;
 
   FriendListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final myAccount = users.doc(user!.email);
+    Map<String, dynamic> myDBInfo;
+    List<String> friendList;
+    myAccount.get().then((value) => {
+          myDBInfo = value.data() as Map<String, dynamic>,
+          friendList = List<String>.from(myDBInfo['friends'])
+        });
+
     return Scaffold(
       body: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: friends.length,
-              itemBuilder: (context, index) {
-                final friend = friends[index];
-                final statusIcon = friend.isOnline
-                    ? const Icon(
-                        Icons.circle,
-                        color: Colors.green,
-                        size: 10,
-                      )
-                    : const Icon(
-                        Icons.circle,
-                        color: Colors.grey,
-                        size: 10,
-                      );
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage(friend.imageUrl),
-                  ),
-                  title: Row(
-                    children: [
-                      Text(friend.name),
-                      const Spacer(), // 오른쪽에 공간 추가
-                      statusIcon
-                    ],
-                  ),
-                  onTap: () {
-                    // 친구를 탭했을 때 수행할 동작 추가
-                  },
-                );
-              },
-            ),
-          ),
+          FutureBuilder(
+              future: myAccount.get(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // 데이터를 아직 불러오지 않았을 때의 UI
+                  return const CircularProgressIndicator(); // 예시로 로딩 스피너를 표시
+                } else if (snapshot.hasError) {
+                  // 에러가 발생했을 때의 UI
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.data() == null) {
+                  // 데이터가 없을 때의 UI
+                  return const Text('No data available');
+                } else {
+                  // 데이터를 성공적으로 불러온 경우
+                  myDBInfo = snapshot.data!.data() as Map<String, dynamic>;
+                  friendList = List<String>.from(myDBInfo['friends']);
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: friendList.length,
+                      itemBuilder: (context, index) {
+                        final friend = friendList[index];
+                        // final statusIcon = friend.isLogin
+                        //     ? const Icon(
+                        //         Icons.circle,
+                        //         color: Colors.green,
+                        //         size: 10,
+                        //       )
+                        //     : const Icon(
+                        //         Icons.circle,
+                        //         color: Colors.grey,
+                        //         size: 10,
+                        //       );
+                        return ListTile(
+                          // leading: CircleAvatar(
+                          //   backgroundImage: AssetImage(friend.photoURL),
+                          // ),
+                          title: Row(
+                            children: [
+                              Text(friend),
+                              const Spacer(), // 오른쪽에 공간 추가
+                              // statusIcon
+                            ],
+                          ),
+                          onTap: () {
+                            // 친구를 탭했을 때 수행할 동작 추가
+                          },
+                        );
+                      },
+                    ),
+                  );
+                }
+              }),
           ElevatedButton.icon(
             onPressed: () {
               showDialog(
@@ -71,9 +96,14 @@ class FriendListScreen extends StatelessWidget {
 }
 
 class Friend {
-  final String name;
-  final bool isOnline;
-  final String imageUrl;
+  final String email;
+  final String displayName;
+  final bool isLogin;
+  final String photoURL;
 
-  Friend({required this.name, required this.isOnline, required this.imageUrl});
+  Friend(
+      {required this.email,
+      required this.displayName,
+      required this.isLogin,
+      required this.photoURL});
 }
