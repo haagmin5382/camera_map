@@ -3,25 +3,31 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 void addFriends(User? user, String friendEmail) {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  final userInDB = users.doc(friendEmail);
+  final friendInDB = users.doc(friendEmail);
+  final meInDB = users.doc(user!.email);
   Map<String, dynamic> friendAccount;
-  userInDB.get().then((value) => {
+  Map<String, dynamic> myAccount;
+  List<String> friendList;
+
+  friendInDB.get().then((value) => {
         if (value.data() != null)
           {
             // 추가하는 자의 계정
-            users.doc(user!.email).set({
-              'email': user.email,
-              'displayName': user.displayName,
-              'photoURL': user.photoURL,
-              'isLogin': true,
-              'friends': [friendEmail]
-            }),
-            friendAccount = value.data() as Map<String, dynamic>,
+            meInDB.get().then((value) => {
+                  myAccount = value.data() as Map<String, dynamic>,
+                  friendList = List<String>.from(myAccount['friends']),
+                  users.doc(user.email).set({
+                    ...myAccount,
+                    'friends': [...friendList, friendEmail]
+                  }),
+                }),
+
             // 추가되는 자의 계정
+            friendAccount = value.data() as Map<String, dynamic>,
+            friendList = List<String>.from(friendAccount['friends']),
             users.doc(friendEmail).set({
               ...friendAccount,
-              'email': friendEmail,
-              'friends': [user.email]
+              'friends': [...friendList, user.email]
             })
           }
       });
