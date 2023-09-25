@@ -1,3 +1,4 @@
+import 'package:camera_map/utils/chat/add_chat.dart';
 import 'package:flutter/material.dart';
 import 'chat_list_screen.dart';
 
@@ -19,6 +20,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       text: text,
       isUser: true,
     );
+    addChat(widget.chatRoom.email, text);
     setState(() {
       _messages.add(message);
     });
@@ -29,7 +31,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[700],
-        title: Text(widget.chatRoom.name,
+        title: Text(widget.chatRoom.displayName,
             style: const TextStyle(color: Colors.white)), // 채팅방 이름 표시
       ),
       body: Column(
@@ -74,7 +76,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 controller: _textController,
                 onSubmitted: _handleSubmitted,
                 decoration: const InputDecoration(
-                  hintText: '메시지를 입력하세요...',
+                  hintText: '메시지를 입력하세요',
                   contentPadding: EdgeInsets.all(10.0),
                   border: InputBorder.none,
                 ),
