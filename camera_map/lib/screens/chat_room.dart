@@ -1,4 +1,5 @@
 import 'package:camera_map/utils/chat/add_chat.dart';
+import 'package:camera_map/widgets/chat/chat_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'chat_list_screen.dart';
 
@@ -37,12 +38,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: ListView.builder(
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                return _messages[index];
-              },
-            ),
+            child: getChatContent(friendEmail: widget.chatRoom.email),
+            // child: ListView.builder(
+            //   itemCount: _messages.length,
+            //   itemBuilder: (context, index) {
+            //     return _messages[index];
+            //   },
+            // ),
           ),
           const Divider(height: 1.0),
           Container(
@@ -87,34 +89,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               onPressed: () => _handleSubmitted(_textController.text),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class ChatMessage extends StatelessWidget {
-  final String text;
-  final bool isUser;
-
-  const ChatMessage({super.key, required this.text, required this.isUser});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10.0),
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        padding: const EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-          color: isUser ? Colors.blue : Colors.grey[200],
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: isUser ? Colors.white : Colors.black,
-          ),
         ),
       ),
     );
