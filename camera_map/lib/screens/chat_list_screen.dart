@@ -5,17 +5,20 @@ class ChatListScreen extends StatelessWidget {
   // 채팅방 목록 데이터 (예시)
   final List<ChatRoom> chatRooms = [
     ChatRoom(
-      name: '친구 1',
+      email: '',
+      displayName: '친구 1',
       lastMessage: '안녕하세요!',
       unreadCount: 2,
     ),
     ChatRoom(
-      name: '친구 2',
+      email: '',
+      displayName: '친구 2',
       lastMessage: '오랜만이에요!',
       unreadCount: 0,
     ),
     ChatRoom(
-      name: '친구 3',
+      email: '',
+      displayName: '친구 3',
       lastMessage: '뭐해요?',
       unreadCount: 5,
     ),
@@ -36,7 +39,7 @@ class ChatListScreen extends StatelessWidget {
               // 채팅 상대방의 프로필 사진 등
               backgroundColor: Colors.blue, // 예시용 색상
             ),
-            title: Text(chatRoom.name),
+            title: Text(chatRoom.displayName),
             subtitle: Text(chatRoom.lastMessage),
             trailing: chatRoom.unreadCount > 0
                 ? CircleAvatar(
@@ -69,12 +72,14 @@ class ChatListScreen extends StatelessWidget {
 }
 
 class ChatRoom {
-  final String name;
+  final String email;
+  final String displayName;
   final String lastMessage;
   final int unreadCount;
 
   ChatRoom({
-    required this.name,
+    required this.email,
+    required this.displayName,
     required this.lastMessage,
     required this.unreadCount,
   });
