@@ -1,3 +1,4 @@
+import 'package:camera_map/utils/friends/get_friends.dart';
 import 'package:camera_map/widgets/add_friends_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,32 +46,49 @@ class FriendListScreen extends StatelessWidget {
                       itemCount: friendList.length,
                       itemBuilder: (context, index) {
                         final friend = friendList[index];
-                        // final statusIcon = friend.isLogin
-                        //     ? const Icon(
-                        //         Icons.circle,
-                        //         color: Colors.green,
-                        //         size: 10,
-                        //       )
-                        //     : const Icon(
-                        //         Icons.circle,
-                        //         color: Colors.grey,
-                        //         size: 10,
-                        //       );
-                        return ListTile(
-                          // leading: CircleAvatar(
-                          //   backgroundImage: AssetImage(friend.photoURL),
-                          // ),
-                          title: Row(
-                            children: [
-                              Text(friend),
-                              const Spacer(), // 오른쪽에 공간 추가
-                              // statusIcon
-                            ],
-                          ),
-                          onTap: () {
-                            // 친구를 탭했을 때 수행할 동작 추가
-                          },
-                        );
+
+                        return FutureBuilder(
+                            future: getFriends(friend),
+                            builder: (context, snapshot2) {
+                              if (snapshot2.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              } else if (snapshot2.hasError) {
+                                return Text('에러 발생: ${snapshot.error}');
+                              } else if (snapshot2.hasData) {
+                                final friendData = snapshot2.data!;
+                                final statusIcon = friendData['isLogin']
+                                    ? const Icon(
+                                        Icons.circle,
+                                        color: Colors.green,
+                                        size: 10,
+                                      )
+                                    : const Icon(
+                                        Icons.circle,
+                                        color: Colors.grey,
+                                        size: 10,
+                                      );
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(friendData['photoURL']),
+                                  ),
+                                  title: Row(
+                                    children: [
+                                      Text(friendData['displayName']),
+                                      const Spacer(),
+                                      statusIcon
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    // 친구를 탭했을 때 수행할 동작 추가
+                                  },
+                                );
+                              } else {
+                                return const Text(
+                                    '데이터 없음'); // 데이터가 없을 경우 기본값 반환
+                              }
+                            });
                       },
                     ),
                   );
