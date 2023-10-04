@@ -53,9 +53,9 @@ Widget _buildLogoutButton(BuildContext context, onLoginStateChanged) {
   return Padding(
     padding: const EdgeInsets.all(15.0),
     child: ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         // 로그아웃 로직 추가
-        FirebaseAuth.instance.signOut();
+        await FirebaseAuth.instance.signOut();
         onLoginStateChanged(false);
       },
       child: const Text('로그아웃'),

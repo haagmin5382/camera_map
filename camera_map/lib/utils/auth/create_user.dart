@@ -19,6 +19,6 @@ void createUser(User user) async {
             })
           }
         else
-          {print('이미 가입된 유저')}
+          {}
       });
 }

@@ -14,6 +14,7 @@ void addChat(String friendEmail, String message) async {
     final Map<String, dynamic> chatsData =
         (await chatDocument.get()).data() as Map<String, dynamic>;
     print(chatsData);
+    print(userEmail);
 
     chatsCollection.doc('$userEmail:$friendEmail').set({
       'chatting': [
