@@ -61,25 +61,48 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: isLogin
-          ? Scaffold(
-              appBar: AppBar(
-                actions: [
-                  if (isLogin) // 로그인 상태에 따라 프로필 버튼 표시
-                    const header()
-                ],
-              ),
-              body: Center(
-                child: pages[_selectedIndex],
-              ),
-              bottomNavigationBar: menubar(
-                // MenuBar 위젯을 사용
-                selectedIndex: _selectedIndex,
-                onItemTapped: _onItemTapped,
-              ),
-            )
-          : LoginScreen(
-              isLogin: isLogin, onLoginStateChanged: onLoginStateChanged),
+      home: FutureBuilder<User?>(
+        future: FirebaseAuth.instance.authStateChanges().first,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator(); // 로딩 화면 표시
+          } else {
+            if (snapshot.hasData) {
+              // 사용자가 로그인한 경우
+              User? user = snapshot.data;
+              if (user?.email != null) {
+                return Scaffold(
+                  appBar: AppBar(
+                    actions: [
+                      if (isLogin) // 로그인 상태에 따라 프로필 버튼 표시
+                        const header()
+                    ],
+                  ),
+                  body: Center(
+                    child: pages[_selectedIndex],
+                  ),
+                  bottomNavigationBar: menubar(
+                    // MenuBar 위젯을 사용
+                    selectedIndex: _selectedIndex,
+                    onItemTapped: _onItemTapped,
+                  ),
+                );
+              } else {
+                return LoginScreen(
+                    isLogin: isLogin, onLoginStateChanged: onLoginStateChanged
+                    // 로그인 화면 구성
+                    );
+              }
+            } else {
+              // 사용자가 로그인하지 않은 경우
+              return LoginScreen(
+                  isLogin: isLogin, onLoginStateChanged: onLoginStateChanged
+                  // 로그인 화면 구성
+                  );
+            }
+          }
+        },
+      ),
     );
   }
 }

@@ -14,7 +14,7 @@ class FriendListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final myAccount = users.doc(user!.email);
+    final myAccount = users.doc(user?.email);
     Map<String, dynamic> myDBInfo;
     List<String> friendList;
     myAccount.get().then((value) => {
