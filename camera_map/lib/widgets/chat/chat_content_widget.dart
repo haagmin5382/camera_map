@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class getChatContent extends StatefulWidget {
@@ -12,15 +13,16 @@ class getChatContent extends StatefulWidget {
 class _getChatContentState extends State<getChatContent> {
   final CollectionReference chatsCollection =
       FirebaseFirestore.instance.collection('chats');
-
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
-    final chatStream = chatsCollection
-        .doc('$widget.userEmail:$widget.friendEmail')
-        .snapshots();
-    final chatStream2 = chatsCollection
-        .doc('$widget.friendEmail:$widget.userEmail')
-        .snapshots();
+    final userEmail = user!.email;
+    final friendEmail = widget.friendEmail;
+    final chatStream =
+        chatsCollection.doc('$userEmail:$friendEmail').snapshots();
+    final chatStream2 =
+        chatsCollection.doc('$friendEmail:$userEmail').snapshots();
+    print(chatStream);
     return StreamBuilder<DocumentSnapshot>(
         stream: chatStream,
         builder: (context, snapshot) {
@@ -29,22 +31,20 @@ class _getChatContentState extends State<getChatContent> {
           } else if (snapshot.hasError) {
             return Text('에러 발생: ${snapshot.error}');
           } else if (snapshot.hasData) {
-            final chatData = snapshot.data!;
-            final data = snapshot.data!.data();
-
-            print('chatContent');
-            print(data);
-            // if (chatData['chatting'] != null) {
-            //   return ListView.builder(
-            //     itemCount: chatData['chatting']?.length,
-            //     itemBuilder: (context, index) {
-            //       return ChatMessage(
-            //           text: chatData['chatting'][index]['message'],
-            //           isUser: chatData['chatting'][index]['user'] !=
-            //               widget.friendEmail);
-            //     },
-            //   );
-            // }
+            final chatData = snapshot.data?.data() as Map<String, dynamic>;
+            if (chatData != null && chatData['chatting'] != null) {
+              final chattingList =
+                  chatData['chatting'] as List<dynamic>; // chatting을 List로 캐스트
+              return ListView.builder(
+                itemCount: chattingList.length,
+                itemBuilder: (context, index) {
+                  return ChatMessage(
+                    text: chattingList[index]['message'],
+                    isUser: chattingList[index]['user'] != widget.friendEmail,
+                  );
+                },
+              );
+            }
             return const Text('');
           } else {
             return const Text('데이터 없음'); // 데이터가 없을 경우 기본값 반환
