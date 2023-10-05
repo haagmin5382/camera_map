@@ -15,7 +15,7 @@ class _getChatContentState extends State<getChatContent> {
   final CollectionReference chatsCollection =
       FirebaseFirestore.instance.collection('chats');
   User? user = FirebaseAuth.instance.currentUser;
-  var currentChatRoom = '';
+  var currentChatRoom;
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _getChatContentState extends State<getChatContent> {
   }
 
   Future<void> loadChatStream() async {
-    currentChatRoom = await getChat(widget.friendEmail);
+    currentChatRoom = await getChat(user!.email, widget.friendEmail);
     setState(() {});
   }
 
@@ -37,12 +37,12 @@ class _getChatContentState extends State<getChatContent> {
         chatsCollection.doc('$userEmail:$friendEmail').snapshots();
     final chatStream2 =
         chatsCollection.doc('$friendEmail:$userEmail').snapshots();
-    print(currentChatRoom);
+
     return StreamBuilder<DocumentSnapshot>(
-        stream: currentChatRoom == 'chat1' ? chatStream1 : chatStream2,
+        stream: currentChatRoom,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Text('');
           } else if (snapshot.hasError) {
             return Text('에러 발생: ${snapshot.error}');
           } else if (snapshot.hasData) {
@@ -64,7 +64,7 @@ class _getChatContentState extends State<getChatContent> {
             }
             return const Text('');
           } else {
-            return const Text('데이터 없음'); // 데이터가 없을 경우 기본값 반환
+            return const Text(''); // 데이터가 없을 경우 기본값 반환
           }
         });
   }
