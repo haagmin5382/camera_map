@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
-User? user = FirebaseAuth.instance.currentUser;
 
-void addChat(String friendEmail, String message) async {
-  final userEmail = user!.email;
+void addChat(String? userEmail, String friendEmail, String message) async {
   CollectionReference chatsCollection =
       FirebaseFirestore.instance.collection('chats');
   final chatDocument = chatsCollection.doc('$userEmail:$friendEmail');

@@ -46,6 +46,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   User? user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
