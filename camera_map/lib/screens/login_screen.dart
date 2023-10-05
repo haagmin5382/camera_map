@@ -58,9 +58,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 final User? user = await _handleSignIn();
                 if (user != null) {
                   // 로그인 성공 후 처리
+
                   FirebaseAuth.instance.currentUser!.reload();
+                  final updatedUser = FirebaseAuth.instance.currentUser;
+
                   widget.onLoginStateChanged(true);
-                  // print("로그인 성공: ${user.displayName}");
+                  // print("로그인 성공: $updatedUser");
                 } else {
                   // 로그인 실패 처리
                   print("로그인 실패");

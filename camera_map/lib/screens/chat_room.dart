@@ -1,5 +1,6 @@
 import 'package:camera_map/utils/chat/add_chat.dart';
 import 'package:camera_map/widgets/chat/chat_content_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'chat_list_screen.dart';
 
@@ -14,14 +15,14 @@ class ChatRoomScreen extends StatefulWidget {
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final TextEditingController _textController = TextEditingController();
   final List<ChatMessage> _messages = [];
-
+  User? user = FirebaseAuth.instance.currentUser;
   void _handleSubmitted(String text) {
     _textController.clear();
     ChatMessage message = ChatMessage(
       text: text,
       isUser: true,
     );
-    addChat(widget.chatRoom.email, text);
+    addChat(user!.email, widget.chatRoom.email, text);
     setState(() {
       _messages.add(message);
     });
@@ -39,12 +40,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         children: <Widget>[
           Expanded(
             child: getChatContent(friendEmail: widget.chatRoom.email),
-            // child: ListView.builder(
-            //   itemCount: _messages.length,
-            //   itemBuilder: (context, index) {
-            //     return _messages[index];
-            //   },
-            // ),
           ),
           const Divider(height: 1.0),
           Container(

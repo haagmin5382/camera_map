@@ -55,7 +55,9 @@ Widget _buildLogoutButton(BuildContext context, onLoginStateChanged) {
     child: ElevatedButton(
       onPressed: () async {
         // 로그아웃 로직 추가
+
         await FirebaseAuth.instance.signOut();
+
         onLoginStateChanged(false);
       },
       child: const Text('로그아웃'),
